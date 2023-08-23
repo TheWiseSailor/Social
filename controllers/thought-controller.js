@@ -42,4 +42,53 @@ const userController = {
       .then((userData) => res.json(userData))
       .catch((err) => res.status(400).json(err));
   },
+  // Update user's information
+  updateUser(req, res) {
+    const { id } = req.params;
+    const { username, email } = req.body;
+    User.findOneAndUpdate({ _id: id }, { username, email }, { new: true })
+      .then((userData) => {
+        if (!userData) {
+          res.status(404).json({ message: "User not found" });
+          return;
+        }
+        res.json(userData);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
+  // Delete a user and their associated thoughts
+  deleteUser(req, res) {
+    const { id } = req.params;
+    User.findOneAndDelete({ _id: id })
+      .then((userData) => {
+        if (!userData) {
+          res.status(404).json({ message: "User not found" });
+          return;
+        }
+        // Remove user's thoughts
+        return Thought.deleteMany({ username: userData.username });
+      })
+      .then(() => res.json({ message: "User and associated thoughts deleted" }))
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // Remove a friend from the user's friend list
+  removeFriend(req, res) {
+    const { userId, friendId } = req.params;
+    User.findByIdAndUpdate(
+      userId,
+      { $pull: { friends: friendId } }, // Remove friend from the set of friends
+      { new: true }
+    )
+      .populate("friends") // Populate user's friends
+      .then((userData) => {
+        if (!userData) {
+          res.status(404).json({ message: "User not found" });
+          return;
+        }
+        res.json(userData);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
 };
+module.exports = userController;
