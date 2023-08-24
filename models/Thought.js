@@ -1,11 +1,6 @@
-// String, required, max length 280
-// Date, default value current timestamp, getter method to format timestamp
-// String, required
-// Use the Reaction subdocument schema
-// Define a virtual for reactionCount
 // Import required libraries
 import mongoose from 'mongoose';
-import dateFormat from 'your-date-format-library'; // Replace with actual date format library
+import { format } from 'date-fns'; // Import format function from date-fns
 
 // Destructure Schema from mongoose
 const { Schema } = mongoose;
@@ -29,7 +24,7 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: timestamp => dateFormat(timestamp),
+    get: timestamp => format(timestamp, 'yyyy-MM-dd HH:mm:ss'), // Format date using date-fns
   },
 });
 
@@ -45,7 +40,7 @@ const thoughtSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: timestamp => dateFormat(timestamp),
+    get: timestamp => format(timestamp, 'yyyy-MM-dd HH:mm:ss'), // Format date using date-fns
   },
   username: {
     type: String,
