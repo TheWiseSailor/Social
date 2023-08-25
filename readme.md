@@ -86,7 +86,8 @@ The Reaction schema is used to define the structure of individual reactions with
 
 ## Walkthrough Video
 
-[Link to Your Walkthrough Video](#)
+[Untitled_ Aug 24, 2023 9_07 PM (2).webm](https://github.com/TheWiseSailor/Social-Network-Api/assets/68026214/bde18347-6575-43cf-b8dd-e83d7c23c5f4)
+
 
 ## Deployment
 
